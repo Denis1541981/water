@@ -51,9 +51,6 @@ async def get_weather(message: Message):
 
 
 async def main():
-    # # Настройка прокси
-    # proxy_url = f'http://{login_proxy}:{parole_proxy}@217.29.53.105:12529'
-    # session = AiohttpSession(proxy=proxy_url)
     logger.info(f"Start: {datetime.now()}")
     # Инициализация бота
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -62,7 +59,7 @@ async def main():
         # Удаление вебхуков и запуск поллинга
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot, polling_timeout=60)
-        await bot.close(request_timeout=30)
+        await bot.close(request_timeout=10)
     except Exception as e:
         logger.error(f"Error: {e}")
     except KeyboardInterrupt:
