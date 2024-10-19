@@ -16,12 +16,13 @@ class Location(NamedTuple):
     latitude: float
     longitude: float
 
-def geolocate(text: str) -> Location:
+def geolocate(text: str) -> Location| None:
     try:
-
-        geolocator = Nominatim(timeout=7, user_agent="my_Geocoder")
+        geolocator = Nominatim(timeout=7, proxies={'http': None, 'https': None}, user_agent='My_agent')
         x = geolocator.geocode(text)
-        return Location(x.latitude, x.longitude)
+        if x:
+            return Location(x.latitude, x.longitude)
+        return None
     except Exception as e:
         logger.error(f"Error geolocate: {e}")
 
@@ -30,7 +31,7 @@ def geolocate(text: str) -> Location:
 
 def main():
     logger.info(f"Starting geolocation service")
-    text = 'Berdsk, Russia'
+    text = 'Бердск'
     location = geolocate(text)
     logger.info(f"Location: {location}")
 

@@ -1,12 +1,15 @@
 #! /usr/bin/env python
 import math
-from asyncio import timeout
+import os
 
 import requests
 import pytz
 import datetime
 from aiogram.utils.markdown import hbold
 from geolocation import geolocate
+from config import API
+
+
 
 class WeatherAPI:
     def __init__(self, api_key: str, text: str):
@@ -16,7 +19,8 @@ class WeatherAPI:
     def get_weather_data(self, text:str) -> dict:
         lat, lon = geolocate(self.text)
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&lang=ru&units=metric&appid={self.api_key}"
-        res = requests.get(url)
+        proxy = { "http": None, "https": None }
+        res = requests.get(url, proxies=proxy)
         if res.status_code == 200:
             return res.json()
         return {}
@@ -87,3 +91,11 @@ class WeatherFormatter:
             return 'Добрый вечер!'
         else:
             return 'Доброй ночи!'
+
+
+if __name__ == "__main__":
+    api_key = API
+    weather_api = WeatherAPI(api_key, "Москва")
+    if weather_api.get_weather_data("Москва"):
+        x = WeatherFormatter.format_weather_message(weather_api.get_weather_data("Москва"), "Василий")
+        print(x)
