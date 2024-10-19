@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 import sys
 from geopy.geocoders import Nominatim
 from typing import NamedTuple
@@ -16,13 +17,13 @@ class Location(NamedTuple):
     latitude: float
     longitude: float
 
-def geolocate(text: str) -> Location| None:
+def geolocate(text: str) -> Location:
     try:
         geolocator = Nominatim(timeout=7, proxies={'http': None, 'https': None}, user_agent='My_agent')
         x = geolocator.geocode(text)
         if x:
             return Location(x.latitude, x.longitude)
-        return None
+        return Location(0, 0)
     except Exception as e:
         logger.error(f"Error geolocate: {e}")
 

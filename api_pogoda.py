@@ -1,14 +1,13 @@
 #! /usr/bin/env python
-import math
-import os
-
-import requests
-import pytz
 import datetime
-from aiogram.utils.markdown import hbold
-from geolocation import geolocate
-from config import API
+import math
 
+import pytz
+import requests
+from aiogram.utils.markdown import hbold
+
+from config import API
+from geolocation import geolocate
 
 
 class WeatherAPI:
