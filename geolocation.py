@@ -19,7 +19,7 @@ class Location(NamedTuple):
 
 def geolocate(text: str) -> Location:
     try:
-        geolocator = Nominatim(timeout=7, proxies={'http': None, 'https': None}, user_agent='My_agent')
+        geolocator = Nominatim(timeout=7, proxies={'https': None}, user_agent='My_agent')
         x = geolocator.geocode(text)
         if x:
             return Location(x.latitude, x.longitude)
